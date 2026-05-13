@@ -1,0 +1,77 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  /* brand colors (tweak if you want a slightly different shade) */
+  --brand-bg: #0E2A23;    /* deep green (logo background) */
+  --brand-gold: #b8860b;  /* gold used for logo text */
+
+  /* additional UI helpers (used by wishlist components) */
+  --ui-surface: rgba(255,255,255,0.02);
+  --ui-border: rgba(255,255,255,0.06);
+}
+
+/* small theme helpers used by some components (keeps old theme block) */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+  background-color: #f8faf9; /* neutral page bg (kept for light theme) */
+}
+
+/* Full compatible multi-line clamp (you had 3 lines) */
+.line-clamp-3 {
+  line-clamp: 3;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+}
+
+/* Add a 2-line clamp used by the wishlist card descriptions */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  line-clamp: 2;
+  word-break: break-word;
+}
+
+/* Premium-ish small utilities used by wishlist components */
+.bg-surface {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.03));
+}
+.ui-border {
+  border-color: var(--ui-border);
+}
+
+/* Light box shadow (complimentary to tailwind's shadows) */
+.premium-shadow {
+  box-shadow: 0 8px 30px rgba(2,6,23,0.55);
+  -webkit-box-shadow: 0 8px 30px rgba(2,6,23,0.55);
+}
+
+/* small responsiveness tweak for product images used in the card */
+.wishlist-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}

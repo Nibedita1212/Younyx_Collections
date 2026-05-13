@@ -1,45 +1,41 @@
 package com.younyx.admin.service;
 
 import com.younyx.admin.dto.AdminDashboardStats;
-import com.younyx.product.repo.ProductRepository;
+import com.younyx.order.repo.OrderRepository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Service
 public class AdminDashboardService {
 
-    private final ProductRepository productRepo;
+    private final OrderRepository orderRepository;
 
-    public AdminDashboardService(ProductRepository productRepo) {
-        this.productRepo = productRepo;
+    public AdminDashboardService(OrderRepository orderRepository) {
+        this.orderRepository = orderRepository;
     }
 
     public AdminDashboardStats getTodayStats() {
-        long totalProducts = 0;
-        long lowStockItems = 0;
 
-        try {
-            totalProducts = productRepo.count();
-        } catch (Exception e) {
-            totalProducts = 0;
+        LocalDateTime startOfDay = LocalDateTime.now().toLocalDate().atStartOfDay();
+        LocalDateTime endOfDay = startOfDay.plusDays(1);
+
+        long totalOrders = orderRepository.count();
+
+        long ordersToday =
+                orderRepository.countByCreatedAtBetween(startOfDay, endOfDay);
+
+        BigDecimal revenueToday =
+                orderRepository.sumRevenueBetween(startOfDay, endOfDay);
+
+        if (revenueToday == null) {
+            revenueToday = BigDecimal.ZERO;
         }
-
-        try {
-            // agar field ka naam stockQuantity hai to yahi sahi hai
-            lowStockItems = productRepo.countByStockQuantityLessThanEqual(5);
-        } catch (Exception e) {
-            lowStockItems = 0;
-        }
-
-        // orders system abhi nahi hai, isliye 0 hi rakhenge
-        long ordersToday = 0;
-        BigDecimal revenueToday = BigDecimal.ZERO;
 
         return new AdminDashboardStats(
-                totalProducts,
+                totalOrders,
                 ordersToday,
-                lowStockItems,
                 revenueToday
         );
     }

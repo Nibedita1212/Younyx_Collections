@@ -3,6 +3,8 @@ package com.younyx.product.entity;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import com.younyx.admin.entity.Collection;
+
 
 @Entity
 @Table(name = "products")
@@ -51,6 +53,11 @@ public class Product {
     @JoinColumn(name = "category_id")
     private Category category;
 
+@ManyToOne(fetch = FetchType.LAZY)
+@JoinColumn(name = "collection_id")
+private Collection collection;
+
+
     // timestamps
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -98,6 +105,11 @@ public class Product {
 
     public Category getCategory() { return category; }
 
+public Collection getCollection() {
+    return collection;
+}
+
+  
     public LocalDateTime getCreatedAt() { return createdAt; }
 
     public LocalDateTime getUpdatedAt() { return updatedAt; }
@@ -126,6 +138,11 @@ public class Product {
     public void setActive(Boolean active) { this.active = active; }
 
     public void setCategory(Category category) { this.category = category; }
+
+    
+public void setCollection(Collection collection) {
+    this.collection = collection;
+}
 
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 

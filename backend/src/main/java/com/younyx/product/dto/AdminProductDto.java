@@ -14,5 +14,9 @@ public record AdminProductDto(
         String image3Url,
         String image4Url,
         Long categoryId,
-        String categoryName
+        String categoryName,
+
+        Long collectionId,
+        String collectionName,
+        Boolean active
 ) {}
